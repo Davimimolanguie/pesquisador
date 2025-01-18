@@ -2,6 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 print("Bem-vindo ao Pesquisador!")
 print("O que você deseja fazer?")
+haha = "e agora?"
+def voltar(haha):
+    print()
+    print(haha)
 while True:
     decisao = input("digite 1 para pesquisar 2 para ver a previsão do tempo e 3 para sair : ")
     if decisao == "1":
@@ -12,6 +16,16 @@ while True:
         pesquisa = pesquisa.replace("o que é um ", "")
         pesquisa = pesquisa.replace("o que é o ", "")
         pesquisa = pesquisa.replace("o que é a ", "")
+        pesquisa = pesquisa.replace("o que e uma ", "")
+        pesquisa = pesquisa.replace("o que e um ", "")
+        pesquisa = pesquisa.replace("o que e o ", "")
+        pesquisa = pesquisa.replace("o que e a ", "")
+        pesquisa = pesquisa.replace("o que sao os", "")
+        pesquisa = pesquisa.replace("o que sao as", "")
+        pesquisa = pesquisa.replace("o que sao ", "")
+        pesquisa = pesquisa.replace("quem e os", "")
+        pesquisa = pesquisa.replace("quem e as", "")
+        pesquisa = pesquisa.replace("quem e ", "")
         pesquisa = pesquisa.replace("o que é ", "")
         pesquisa = pesquisa.replace("o que são os", "")
         pesquisa = pesquisa.replace("o que são as", "")
@@ -55,6 +69,7 @@ while True:
                 pesquisouja = pesquisouja[posinicial:posfinal + 1]  # Inclui o ">"
                 if "<b>A Wikipédia não possui um artigo com este nome exato.</b>" in ir.text or ir.text == "":
                     print("Página não encontrada")
+                    voltar(haha)
                 else:
                     html = []
                     start = 0
@@ -67,10 +82,12 @@ while True:
                             break  # Garante que não ocorra erro se não houver ">"
                         pesquisouja = pesquisouja[:posinicial] + pesquisouja[posfinal + 1:]
                     print(pesquisouja)
+                    voltar(haha)
             else:
                 # Exibe o primeiro parágrafo (extract)
                 texto = page["extract"]
                 print(texto)
+                voltar(haha)
 
         else:  # Se a Wikipédia não funcionar, busca no blog
             ir = requests.get("https://blog.eurekka.me/"+pesquisa)
@@ -81,12 +98,14 @@ while True:
 
                 if "A página que você solicitou não foi encontrada" in ir.text:
                     print("Página não encontrada no blog!")
+                    voltar(haha)
                 else:
                     print("Resultados encontrados no blog:")
                     for paragrafo in texto[:3]:  # Exibe os 3 primeiros parágrafos
                         print(paragrafo.get_text())
             else:
-                print("Erro ao acessar a página! tente resumir a pesquisa.") 
+                print("Erro ao acessar a página! tente resumir a pesquisa.")
+                voltar(haha) 
     elif decisao == "2":
         graus = requests.get("https://weather.com")
         if graus.status_code == 200:
@@ -97,8 +116,10 @@ while True:
             substring = graus.text[posinicial:posfinal]
             substring = substring.replace("<span data-testid=\"TemperatureValue\" class=\"CurrentConditions--tempValue--zUBSz\" dir=\"ltr\">", "")
             print("na sua cidade faz " + substring + " graus")
+            voltar(haha)
         else:
             print("Erro ao acessar a previsão do tempo.")
+            voltar(haha)
     elif decisao == "3":
         print("Até mais!")
         break
