@@ -88,24 +88,9 @@ while True:
                 texto = page["extract"]
                 print(texto)
                 voltar(haha)
-
-        else:  # Se a Wikipédia não funcionar, busca no blog
-            ir = requests.get("https://blog.eurekka.me/"+pesquisa)
-
-            if ir.status_code == 200:
-                soup = BeautifulSoup(ir.text, "html.parser")
-                texto = soup.find_all("p")
-
-                if "A página que você solicitou não foi encontrada" in ir.text:
-                    print("Página não encontrada no blog!")
-                    voltar(haha)
-                else:
-                    print("Resultados encontrados no blog:")
-                    for paragrafo in texto[:3]:  # Exibe os 3 primeiros parágrafos
-                        print(paragrafo.get_text())
-            else:
-                print("Erro ao acessar a página! tente resumir a pesquisa.")
-                voltar(haha) 
+        else:
+            print("Erro ao acessar a página! tente resumir a pesquisa.")
+            voltar(haha) 
     elif decisao == "2":
         graus = requests.get("https://weather.com")
         if graus.status_code == 200:
